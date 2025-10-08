@@ -9,7 +9,7 @@
     "prepare": "pnpm clean && pnpm build:packages",
     "clean": "rimraf .data node_modules/.cache",
     "build:packages": "pnpm -r --filter ./packages/* build",
-    "dev": "nuxt dev --open",
+    "dev": "nuxt dev --open --port 3001",
     "dev:host": "nuxt dev --host",
     "build": "nuxt build",
     "generate": "nuxt generate",

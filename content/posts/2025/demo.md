@@ -3,11 +3,12 @@ title: demo
 description: 讲述关于demo的故事，并根据给出生活。
 date: 2025-10-08 15:15:05
 updated: 2025-10-08 15:15:05
-image: # 图片
+image: /images/20241004003725_035c60062f4c5afcf8af1d7858fb61a1.jpg # 图片
 type: 测试
 categories: [生活]
+recommend: 2
 tags: []
----
+--- 
 
 ## 从demo说起
 
@@ -36,3 +37,4 @@ caption: 说明文字，还支持通过 width 或 height 属性指定尺寸
 ::
 
 那个上传部署 绑定域名
+你这文章 文件夹怎么搞的 就是我可以单独的生成文件夹吗
