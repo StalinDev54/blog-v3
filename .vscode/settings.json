@@ -2,6 +2,10 @@
   "[css]": {
     "editor.defaultFormatter": "stylelint.vscode-stylelint"
   },
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+
   "[mdc]": {
     "files.autoGuessEncoding": false
   },
@@ -17,12 +21,7 @@
   "errorLens.messageMaxChars": 50,
   "errorLens.messageTemplate": "$severity $message",
   "iconify.inplace": false,
-  "stylelint.validate": [
-    "css",
-    "postcss",
-    "scss",
-    "vue"
-  ],
+  "stylelint.validate": ["css", "postcss", "scss", "vue"],
   "typescript.tsdk": "node_modules\\typescript\\lib",
   "vue.autoInsert.dotValue": true,
   "vue.format.template.initialIndent": false,
