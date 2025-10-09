@@ -1,11 +1,13 @@
 <script setup lang="ts">
 const blogLog = [
-	{ label: '2025-08-17', value: '加入 萌ICP备 雾ICP备' },
-	{ label: '2025-08-16', value: '加入 揪蝉' },
-	{ label: '2024-04-19', value: '发布第一篇文章' },
-	{ label: '2024-04-10', value: '迁移至 Nuxt' },
-	{ label: '2023-04-23', value: '迁移至 Hexo 使用 Anzhiyu 主题' },
-	{ label: '2023-04-21', value: '博客建立' },
+	{ label: '2025-10-8', value: '个人博客上线' },
+
+	{ label: '2025-09-9', value: '推出实时视奸项目' },
+	{ label: '2025-07-16', value: '推出极乐音乐线上版' },
+	{ label: '2024-10-19', value: '极乐Pro上线' },
+	{ label: '2024-09-1', value: '朋友圈小窝上线' },
+	{ label: '2021年 暑期', value: '12.0全新架构升级' },
+	{ label: '2020-09-1', value: '极乐App开发上线' },
 ]
 </script>
 

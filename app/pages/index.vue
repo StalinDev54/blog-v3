@@ -33,7 +33,7 @@ const listRecommended = computed(() => sort(
 <template>
 <div class="mobile-only">
 	<!-- 若不包裹，display: none 在 JS 加载后才有足够优先级 -->
-	<ZhiluHeader to="/" />
+	<ZhiluHeader to="/" disable-navigation-on-mobile />
 </div>
 
 <PostSlide v-if="listRecommended.length && page === 1 && !category" :list="listRecommended" />

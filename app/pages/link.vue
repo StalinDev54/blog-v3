@@ -28,7 +28,7 @@ const copyFields = {
 
 <template>
 <div class="mobile-only">
-	<ZhiluHeader to="/" suffix="友链" />
+	<ZhiluHeader to="/" suffix="友链" disable-navigation-on-mobile />
 </div>
 
 <FeedGroup :feeds />
@@ -41,11 +41,7 @@ const copyFields = {
 		</div>
 	</template>
 	<template #tab2>
-		<ContentRenderer
-			v-if="postLink"
-			:value="postLink"
-			class="article"
-		/>
+		<ContentRenderer v-if="postLink" :value="postLink" class="article" />
 		<p v-else class="text-center">
 			可于 link.md 配置友链补充说明。
 		</p>

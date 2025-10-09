@@ -16,6 +16,23 @@ layoutStore.setAside([])
 
 const birthYear = appConfig.component.stats.birthYear
 const age = new Date().getFullYear() - birthYear
+
+// 添加更多个人信息
+const skills = [
+  { name: '前端开发', level: 90 },
+  { name: '后端开发', level: 75 },
+  { name: 'UI/UX设计', level: 80 },
+  { name: '项目管理', level: 70 }
+]
+
+const hobbies = [
+  { name: '阅读', icon: 'ph:book-bold' },
+  { name: '音乐', icon: 'ph:music-note-bold' },
+  { name: '旅行', icon: 'ph:airplane-tilt-bold' },
+  { name: '摄影', icon: 'ph:camera-bold' },
+  { name: '编程', icon: 'ph:code-bold' },
+  { name: '游戏', icon: 'ph:game-controller-bold' }
+]
 </script>
 
 <template>
@@ -36,7 +53,7 @@ const age = new Date().getFullYear() - birthYear
 		<div class="card intro-card">
 			<p>你好, 很高兴认识你</p>
 			<h2>我叫 {{ appConfig.author.name }}</h2>
-			<p>是一名 学生</p>
+			<p>是一名 开发者</p>
 		</div>
 
 		<div class="card info-card">
@@ -52,17 +69,43 @@ const age = new Date().getFullYear() - birthYear
 
 		<div class="card motto-card">
 			<span class="label">座右铭</span>
-			<p>人生得意须尽欢</p>
+			<div class="motto-content">
+				<p class="motto-text">人生得意须尽欢</p>
+				<div class="motto-decoration">
+					<div class="decoration-line"></div>
+					<div class="decoration-dot"></div>
+					<div class="decoration-line"></div>
+				</div>
+			</div>
 		</div>
 
 		<div class="card tech-card">
 			<span class="label">关注</span>
-			<h3>科技，诗词</h3>
+			<div class="tech-content">
+				<h3>科技，生活</h3>
+				<div class="tech-icons">
+					<Icon name="ph:cpu-bold" class="tech-icon" />
+					<Icon name="ph:heartbeat-bold" class="tech-icon" />
+					<Icon name="ph:infinity-bold" class="tech-icon" />
+				</div>
+			</div>
 		</div>
 
 		<div class="card music-card">
 			<span class="label">音乐</span>
-			<h3>周杰伦，周深</h3>
+			<div class="music-content">
+				<h3>A神，电音</h3>
+				<div class="music-note">
+					<Icon name="ph:music-notes-bold" class="music-icon" />
+				</div>
+				<div class="music-wave">
+					<div class="wave-bar"></div>
+					<div class="wave-bar"></div>
+					<div class="wave-bar"></div>
+					<div class="wave-bar"></div>
+					<div class="wave-bar"></div>
+				</div>
+			</div>
 		</div>
 
 		<div class="card info-card personality-card">
@@ -78,22 +121,48 @@ const age = new Date().getFullYear() - birthYear
 		<div class="card specialty-card">
 			<span class="label">特长</span>
 			<p class="specialty-text">
-				英语指数 <span class="highlight">MAX</span>
+				历史哲学 <span class="highlight">MAX</span>
 			</p>
+		</div>
+
+		<!-- 新增技能卡片 -->
+		<div class="card skills-card">
+			<span class="label">技能</span>
+			<div class="skills-content">
+				<div v-for="skill in skills" :key="skill.name" class="skill-item">
+					<div class="skill-name">{{ skill.name }}</div>
+					<div class="skill-bar">
+						<div class="skill-level" :style="{ width: skill.level + '%' }"></div>
+					</div>
+					<div class="skill-percent">{{ skill.level }}%</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 新增爱好卡片 -->
+		<div class="card hobbies-card">
+			<span class="label">爱好</span>
+			<div class="hobbies-content">
+				<div v-for="hobby in hobbies" :key="hobby.name" class="hobby-item">
+					<Icon :name="hobby.icon" class="hobby-icon" />
+					<span class="hobby-name">{{ hobby.name }}</span>
+				</div>
+			</div>
 		</div>
 
 		<div class="card contact-card">
 			<span class="label">联系我</span>
 			<div class="contact-links">
-				<a href="https://github.com/LuoH-AN" target="_blank" rel="noopener noreferrer" title="GitHub:LuoH-AN">
+				<a href="https://github.com/stalindev54" target="_blank" rel="noopener noreferrer"
+					title="GitHub:LuoH-AN">
 					<Icon name="ph:github-logo-fill" />
 				</a>
-				<a href="mailto:enltlh@gmail.com" target="_blank" rel="noopener noreferrer"
+				<a href="mailto:jiclub.site@qq.com" target="_blank" rel="noopener noreferrer"
 					title="Email:enltlh@gmail.com">
 					<Icon name="ph:envelope-simple-fill" />
 				</a>
 				<a href="https://qm.qq.com/q/9sljinl6rC" target="_blank" rel="noopener noreferrer"
-					title="QQ:1412219758">
+					title="QQ:1545433540">
 					<Icon name="ri:qq-fill" />
 				</a>
 			</div>
@@ -267,12 +336,46 @@ const age = new Date().getFullYear() - birthYear
 	flex-direction: column;
 	justify-content: center;
 	color: var(--c-text-1);
+	padding: 1.5rem;
 
-	p {
+	.motto-content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+	}
+
+	.motto-text {
 		margin: 0;
-		font-size: 2.5rem;
+		font-size: 2.2rem;
 		font-weight: bold;
-		line-height: 1.2;
+		line-height: 1.3;
+		text-align: center;
+		position: relative;
+		z-index: 1;
+	}
+
+	.motto-decoration {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-top: 1.5rem;
+		width: 100%;
+	}
+
+	.decoration-line {
+		flex: 1;
+		height: 2px;
+		background: linear-gradient(to right, transparent, var(--c-primary), transparent);
+	}
+
+	.decoration-dot {
+		width: 12px;
+		height: 12px;
+		border-radius: 50%;
+		background-color: var(--c-primary);
+		margin: 0 10px;
 	}
 }
 
@@ -281,14 +384,37 @@ const age = new Date().getFullYear() - birthYear
 	flex-direction: column;
 	min-height: 250px;
 	color: var(--c-text-1);
+	padding: 1.5rem;
 
-	h3 {
-		font-size: 2.5rem;
-		font-weight: bold;
+	.tech-content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
 	}
 
-	p {
-		color: var(--c-text-2);
+	h3 {
+		font-size: 2rem;
+		font-weight: bold;
+		margin-bottom: 1.5rem;
+		text-align: center;
+	}
+
+	.tech-icons {
+		display: flex;
+		gap: 1.5rem;
+	}
+
+	.tech-icon {
+		font-size: 2.5rem;
+		color: var(--c-primary);
+		transition: transform 0.3s ease;
+
+		&:hover {
+			transform: translateY(-5px);
+		}
 	}
 }
 
@@ -300,11 +426,66 @@ const age = new Date().getFullYear() - birthYear
 	min-height: 250px;
 	text-shadow: none;
 	color: var(--c-text-1);
+	padding: 1.5rem;
+
+	.music-content {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+	}
 
 	h3 {
-		font-size: 2.5rem;
+		font-size: 2rem;
 		font-weight: bold;
+		margin-bottom: 1rem;
+		text-align: center;
 	}
+
+	.music-note {
+		margin: 1rem 0;
+	}
+
+	.music-icon {
+		font-size: 3rem;
+		color: var(--c-primary);
+		animation: bounce 2s infinite;
+	}
+
+	.music-wave {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 4px;
+		margin-top: 1rem;
+		height: 30px;
+	}
+
+	.wave-bar {
+		width: 4px;
+		height: 100%;
+		background-color: var(--c-primary);
+		border-radius: 2px;
+		animation: wave 1.2s ease-in-out infinite alternate;
+
+		&:nth-child(1) { animation-delay: 0s; }
+		&:nth-child(2) { animation-delay: 0.1s; }
+		&:nth-child(3) { animation-delay: 0.2s; }
+		&:nth-child(4) { animation-delay: 0.3s; }
+		&:nth-child(5) { animation-delay: 0.4s; }
+	}
+}
+
+@keyframes bounce {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(-10px); }
+}
+
+@keyframes wave {
+	0% { height: 10px; }
+	100% { height: 100%; }
 }
 
 .personality-card {
@@ -330,6 +511,100 @@ const age = new Date().getFullYear() - birthYear
 		font-size: 2.5rem;
 		line-height: 1;
 		color: var(--c-primary);
+	}
+}
+
+.skills-card {
+	grid-column: 1 / -1;
+	color: var(--c-text-1);
+	padding: 2rem 1.5rem;
+}
+
+.skills-content {
+	width: 100%;
+	max-width: 600px;
+}
+
+.skill-item {
+	display: flex;
+	align-items: center;
+	margin-bottom: 1.5rem;
+	
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.skill-name {
+	width: 100px;
+	font-size: 1rem;
+	text-align: left;
+}
+
+.skill-bar {
+	flex: 1;
+	height: 10px;
+	margin: 0 15px;
+	background-color: var(--c-border);
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+.skill-level {
+	height: 100%;
+	background-color: var(--c-primary);
+	border-radius: 5px;
+	transition: width 1s ease-in-out;
+}
+
+.skill-percent {
+	width: 50px;
+	font-size: 1rem;
+	font-weight: bold;
+	text-align: right;
+}
+
+.hobbies-card {
+	grid-column: 1 / -1;
+	color: var(--c-text-1);
+	padding: 2rem 1.5rem;
+}
+
+.hobbies-content {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 1.5rem;
+	width: 100%;
+}
+
+.hobby-item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 80px;
+	
+	@media (max-width: 768px) {
+		width: 60px;
+	}
+}
+
+.hobby-icon {
+	font-size: 2.5rem;
+	margin-bottom: 0.5rem;
+	color: var(--c-primary);
+	
+	@media (max-width: 768px) {
+		font-size: 2rem;
+	}
+}
+
+.hobby-name {
+	font-size: 1rem;
+	
+	@media (max-width: 768px) {
+		font-size: 0.9rem;
 	}
 }
 
@@ -449,6 +724,8 @@ const age = new Date().getFullYear() - birthYear
 	.music-card,
 	.personality-card,
 	.specialty-card,
+	.skills-card,
+	.hobbies-card,
 	.contact-card,
 	.stats-card {
 		color: var(--c-text-dark-1);
@@ -496,6 +773,43 @@ const age = new Date().getFullYear() - birthYear
 
 	a {
 		color: var(--c-text-dark-1);
+	}
+	
+	.skill-bar {
+		background-color: var(--c-border-dark);
+	}
+	
+	.skill-level {
+		background-color: var(--c-primary-dark);
+	}
+	
+	.hobby-icon {
+		color: var(--c-primary-dark);
+	}
+
+	.motto-text {
+		text-shadow: 0 0 10px rgba(102, 170, 255, 0.3);
+	}
+
+	.decoration-dot {
+		background-color: var(--c-primary-dark);
+		box-shadow: 0 0 8px var(--c-primary-dark);
+	}
+
+	.decoration-line {
+		background: linear-gradient(to right, transparent, var(--c-primary-dark), transparent);
+	}
+
+	.tech-icon {
+		color: var(--c-primary-dark);
+	}
+
+	.music-icon {
+		color: var(--c-primary-dark);
+	}
+
+	.wave-bar {
+		background-color: var(--c-primary-dark);
 	}
 }
 </style>

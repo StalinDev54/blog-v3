@@ -1,9 +1,56 @@
 <script setup lang="ts">
+import { useLayoutStore } from '~/stores/layout'
+
+interface Props {
+	to?: string
+	disableNavigationOnMobile?: boolean // 在移动端是否禁用导航功能
+}
+
+const props = withDefaults(defineProps<Props>(), {
+	disableNavigationOnMobile: false
+})
+
 const appConfig = useAppConfig()
+const layoutStore = useLayoutStore()
+
+// 只在移动端点击时打开侧边栏
+const handleHeaderClick = (event: MouseEvent) => {
+	// 检查是否为移动端设备 (768px 是 $breakpoint-mobile 的值)
+	if (window.innerWidth <= 768) {
+		event.preventDefault()
+		layoutStore.toggle('sidebar')
+
+		// 如果设置了禁用移动端导航，则阻止跳转
+		if (props.disableNavigationOnMobile) {
+			event.stopPropagation()
+		}
+	}
+	// 如果有 to 属性且不是在移动端，则允许正常跳转
+}
+
+// 用于模板中的响应式判断
+const isMobile = ref(false)
+
+onMounted(() => {
+	isMobile.value = window.innerWidth <= 768
+
+	// 监听窗口大小变化
+	const handleResize = () => {
+		isMobile.value = window.innerWidth <= 768
+	}
+
+	window.addEventListener('resize', handleResize)
+
+	// 组件卸载时移除事件监听器
+	onUnmounted(() => {
+		window.removeEventListener('resize', handleResize)
+	})
+})
 </script>
 
-<template>
-<ZRawLink class="zhilu-header">
+<template><!-- 在移动端且禁用导航时，不传递 to 属性以避免跳转 -->
+<ZRawLink class="zhilu-header" :to="!(isMobile && disableNavigationOnMobile) ? to : undefined"
+	@click="handleHeaderClick">
 	<div v-if="appConfig.header.emojiTail" class="emoji-tail">
 		<span v-for="(emoji, emojiIndex) in appConfig.header.emojiTail" :key="emojiIndex" class="split-char"
 			:style="{ '--delay': `${emojiIndex * .6 - 3}s` }" v-text="emoji" />
