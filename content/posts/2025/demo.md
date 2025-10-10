@@ -3,7 +3,7 @@ title: n次博客经历，我又又重拾起来了
 description: 讲述关于搭建博客的故事，感悟成长与过去。
 date: 2025-10-08 15:15:05
 updated: 2025-10-08 15:15:05
-image: /images/20241004003725_035c60062f4c5afcf8af1d7858fb61a1.jpg # 图片
+image: https://wework.qpic.cn/wwpic3az/823007__gZHi90wQbar_01_1760064032/0 # 图片
 type: story
 categories: [生活]
 recommend: 2

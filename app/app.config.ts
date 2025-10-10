@@ -92,7 +92,7 @@ export default defineAppConfig({
 			title: '',
 			items: [
 				{ icon: 'ph:files-bold', text: '文章', url: '/' },
-				{ icon: 'ph:chat-centered-dots-bold', text: '朋友圈', url: 'https://jiclub.site/archives.php?user=36b175225d6773fc1a739acdd8834664' },
+				{ icon: 'ph:chat-centered-dots-bold', text: '动态', url: 'https://jiclub.site/archives.php?user=36b175225d6773fc1a739acdd8834664' },
 				{ icon: 'ph:link-bold', text: '友链', url: '/link' },
 				{ icon: 'ph:archive-bold', text: '归档', url: '/archive' },
 				{ icon: 'ph:user-bold', text: '关于', url: '/about' },

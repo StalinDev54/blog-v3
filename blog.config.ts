@@ -40,6 +40,7 @@ const blogConfig = {
 			生活: { icon: 'ph:shooting-star-bold', color: '#f77' },
 			代码: { icon: 'ph:code-bold', color: '#77f' },
 			学习: { icon: 'ph:book-bold', color: '#fa3' },
+			随想: { icon: 'icon-park:bird', color: '' },
 		},
 		defaultCategoryIcon: 'ph:folder-bold',
 		/** 分类排序方式，键为排序字段，值为显示名称 */

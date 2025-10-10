@@ -5,9 +5,9 @@ image: https://cdn2.enltlh.me/picture/2025/994f5c1f7600f57535f317ff718a9363.avif
 date: 2025-10-09 20:28:49
 updated: 2025-10-09 20:28:49
 
-categories: [诗词]
+categories: [随想]
 tags: [写作, 杂记]
-recommend: true
+recommend: 0
 ---
 
 ::poetry
