@@ -4,7 +4,7 @@ description: AI 滥用
 date: 2025-06-10 21:52:43
 updated: 2025-06-10 21:52:43
 type: story
-categories: [杂谈]
+categories: [随想]
 tags: [思考, AI] 
 ---
 
