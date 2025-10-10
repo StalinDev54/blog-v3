@@ -6,7 +6,7 @@ const basicConfig = {
 	title: 'Cталин博客',
 	subtitle: '未觉池塘春草梦，阶前梧叶已秋声',
 	// 长 description 利好于 SEO
-	description: 'Cталин博客',
+	description: 'Cталин博客，技术博客交流分享，记录生活点滴，分享学习经验与编程技术，专注于前端开发、后端开发、全栈开发等技术领域的知识分享与经验交流。',
 	author: {
 		name: 'Cталин',
 		avatar: 'https://q2.qlogo.cn/headimg_dl?dst_uin=1545433540&spec=100',

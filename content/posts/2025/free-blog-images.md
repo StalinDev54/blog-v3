@@ -3,7 +3,7 @@ title: 美观博客封面与QQ邮箱隐藏用法
 description: 详细介绍如何免费配置高颜值博客文字封面，手把手教你使用QQ邮箱免费图床，并分享博客运营、图床选择、免费工具的实用经验。
 date: 2025-10-10 10:57:15
 updated: 2025-10-10 10:57:15
-image: https://wework.qpic.cn/wwpic3az/571364__y49ghiDQTiIDiZ_1760068028/0 # 图片
+image: /images/image02.png # 图片
 categories: [经验分享]
 tags: [博客, 图床, 免费, 博客封面, 工具推荐]
 recommend: 3
