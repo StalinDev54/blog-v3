@@ -19,19 +19,19 @@ const age = new Date().getFullYear() - birthYear
 
 // 添加更多个人信息
 const skills = [
-  { name: '前端开发', level: 90 },
-  { name: '后端开发', level: 75 },
-  { name: 'UI/UX设计', level: 80 },
-  { name: '项目管理', level: 70 }
+	{ name: '前端开发', level: 90 },
+	{ name: '后端开发', level: 75 },
+	{ name: 'UI/UX设计', level: 80 },
+	{ name: '项目管理', level: 70 },
 ]
 
 const hobbies = [
-  { name: '阅读', icon: 'ph:book-bold' },
-  { name: '音乐', icon: 'ph:music-note-bold' },
-  { name: '旅行', icon: 'ph:airplane-tilt-bold' },
-  { name: '摄影', icon: 'ph:camera-bold' },
-  { name: '编程', icon: 'ph:code-bold' },
-  { name: '游戏', icon: 'ph:game-controller-bold' }
+	{ name: '阅读', icon: 'ph:book-bold' },
+	{ name: '音乐', icon: 'ph:music-note-bold' },
+	{ name: '旅行', icon: 'ph:airplane-tilt-bold' },
+	{ name: '摄影', icon: 'ph:camera-bold' },
+	{ name: '编程', icon: 'ph:code-bold' },
+	{ name: '骑行', icon: 'ph:bicycle' },
 ]
 </script>
 
@@ -70,11 +70,13 @@ const hobbies = [
 		<div class="card motto-card">
 			<span class="label">座右铭</span>
 			<div class="motto-content">
-				<p class="motto-text">人生得意须尽欢</p>
+				<p class="motto-text">
+					人生得意须尽欢
+				</p>
 				<div class="motto-decoration">
-					<div class="decoration-line"></div>
-					<div class="decoration-dot"></div>
-					<div class="decoration-line"></div>
+					<div class="decoration-line" />
+					<div class="decoration-dot" />
+					<div class="decoration-line" />
 				</div>
 			</div>
 		</div>
@@ -99,11 +101,11 @@ const hobbies = [
 					<Icon name="ph:music-notes-bold" class="music-icon" />
 				</div>
 				<div class="music-wave">
-					<div class="wave-bar"></div>
-					<div class="wave-bar"></div>
-					<div class="wave-bar"></div>
-					<div class="wave-bar"></div>
-					<div class="wave-bar"></div>
+					<div class="wave-bar" />
+					<div class="wave-bar" />
+					<div class="wave-bar" />
+					<div class="wave-bar" />
+					<div class="wave-bar" />
 				</div>
 			</div>
 		</div>
@@ -130,11 +132,15 @@ const hobbies = [
 			<span class="label">技能</span>
 			<div class="skills-content">
 				<div v-for="skill in skills" :key="skill.name" class="skill-item">
-					<div class="skill-name">{{ skill.name }}</div>
-					<div class="skill-bar">
-						<div class="skill-level" :style="{ width: skill.level + '%' }"></div>
+					<div class="skill-name">
+						{{ skill.name }}
 					</div>
-					<div class="skill-percent">{{ skill.level }}%</div>
+					<div class="skill-bar">
+						<div class="skill-level" :style="{ width: `${skill.level}%` }" />
+					</div>
+					<div class="skill-percent">
+						{{ skill.level }}%
+					</div>
 				</div>
 			</div>
 		</div>
@@ -470,22 +476,48 @@ const hobbies = [
 		border-radius: 2px;
 		animation: wave 1.2s ease-in-out infinite alternate;
 
-		&:nth-child(1) { animation-delay: 0s; }
-		&:nth-child(2) { animation-delay: 0.1s; }
-		&:nth-child(3) { animation-delay: 0.2s; }
-		&:nth-child(4) { animation-delay: 0.3s; }
-		&:nth-child(5) { animation-delay: 0.4s; }
+		&:nth-child(1) {
+			animation-delay: 0s;
+		}
+
+		&:nth-child(2) {
+			animation-delay: 0.1s;
+		}
+
+		&:nth-child(3) {
+			animation-delay: 0.2s;
+		}
+
+		&:nth-child(4) {
+			animation-delay: 0.3s;
+		}
+
+		&:nth-child(5) {
+			animation-delay: 0.4s;
+		}
 	}
 }
 
 @keyframes bounce {
-	0%, 100% { transform: translateY(0); }
-	50% { transform: translateY(-10px); }
+
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+
+	50% {
+		transform: translateY(-10px);
+	}
 }
 
 @keyframes wave {
-	0% { height: 10px; }
-	100% { height: 100%; }
+	0% {
+		height: 10px;
+	}
+
+	100% {
+		height: 100%;
+	}
 }
 
 .personality-card {
@@ -529,7 +561,7 @@ const hobbies = [
 	display: flex;
 	align-items: center;
 	margin-bottom: 1.5rem;
-	
+
 	&:last-child {
 		margin-bottom: 0;
 	}
@@ -584,7 +616,7 @@ const hobbies = [
 	align-items: center;
 	justify-content: center;
 	width: 80px;
-	
+
 	@media (max-width: 768px) {
 		width: 60px;
 	}
@@ -594,7 +626,7 @@ const hobbies = [
 	font-size: 2.5rem;
 	margin-bottom: 0.5rem;
 	color: var(--c-primary);
-	
+
 	@media (max-width: 768px) {
 		font-size: 2rem;
 	}
@@ -602,7 +634,7 @@ const hobbies = [
 
 .hobby-name {
 	font-size: 1rem;
-	
+
 	@media (max-width: 768px) {
 		font-size: 0.9rem;
 	}
@@ -774,15 +806,15 @@ const hobbies = [
 	a {
 		color: var(--c-text-dark-1);
 	}
-	
+
 	.skill-bar {
 		background-color: var(--c-border-dark);
 	}
-	
+
 	.skill-level {
 		background-color: var(--c-primary-dark);
 	}
-	
+
 	.hobby-icon {
 		color: var(--c-primary-dark);
 	}

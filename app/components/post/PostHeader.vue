@@ -1,67 +1,66 @@
 <script setup lang="ts">
 import type ArticleProps from '~/types/article'
+import { useLayoutStore } from '~/stores/layout'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps<ArticleProps>()
 
 const appConfig = useAppConfig()
+const layoutStore = useLayoutStore()
 
 const categoryLabel = computed(() => props.categories?.[0])
 const categoryIcon = computed(() => getCategoryIcon(categoryLabel.value))
 
-const shareText = `【${appConfig.title}】${props.title}\n\n${
-	props.description ? `${props.description}\n\n` : ''}${
-	new URL(props.path!, appConfig.url).href}`
+const shareText = `【${appConfig.title}】${props.title}\n\n${props.description ? `${props.description}\n\n` : ''}${new URL(props.path!, appConfig.url).href}`
 
 const { copy, copied } = useCopy(shareText)
+
+// 移动端点击打开侧边栏
+function handleMobileClick(event: MouseEvent) {
+	// 检查是否为移动端设备 (768px 是 $breakpoint-mobile 的值)
+	if (window.innerWidth <= 768) {
+		event.preventDefault()
+		layoutStore.toggle('sidebar')
+	}
+}
 </script>
 
-<template>
 <!-- 💩夸克浏览器，桌面端只有IE不支持 :has() 了 -->
+<template>
 <div class="post-header" :class="{ 'has-cover': image, 'text-revert': meta?.coverRevert }">
-	<NuxtImg v-if="image" class="post-cover" :src="image" :alt="title" />
+	<NuxtImg v-if="image" class="post-cover" :src="image" :alt="title" @click="handleMobileClick" />
 	<div class="post-nav">
 		<div class="operations">
-			<ZButton
-				:icon="copied ? 'ph:check-bold' : 'ph:share-bold' "
-				@click="copy()"
-			>
+			<ZButton :icon="copied ? 'ph:check-bold' : 'ph:share-bold'" @click="copy()">
 				文字分享
 			</ZButton>
 		</div>
 
 		<div v-if="!meta?.hideInfo" class="post-info">
-			<time
-				v-if="date"
-				v-tip="`创建于 ${getLocaleDatetime(props.date)}`"
-				:datetime="getIsoDatetime(date)"
-			>
+			<time v-if="date" v-tip="`创建于 ${getLocaleDatetime(props.date)}`" :datetime="getIsoDatetime(date)">
 				<Icon name="ph:calendar-dots-bold" />
 				{{ getPostDate(props.date) }}
 			</time>
 
-			<time
-				v-if="isTimeDiffSignificant(date, updated, .999)"
-				v-tip="`修改于 ${getLocaleDatetime(props.updated)}`"
-				:datetime="getIsoDatetime(updated)"
-			>
+			<time v-if="isTimeDiffSignificant(date, updated, .999)" v-tip="`修改于 ${getLocaleDatetime(props.updated)}`"
+				:datetime="getIsoDatetime(updated)">
 				<Icon name="ph:calendar-plus-bold" />
 				{{ getPostDate(props.updated) }}
 			</time>
 
-			<span v-if="categoryLabel">
+			<span v-if="categoryLabel" @click="handleMobileClick">
 				<Icon :name="categoryIcon" />
 				{{ categoryLabel }}
 			</span>
 
-			<span>
+			<span @click="handleMobileClick">
 				<Icon name="ph:paragraph-bold" />
 				{{ formatNumber(readingTime?.words) }} 字
 			</span>
 		</div>
 	</div>
 
-	<h1 class="post-title" :class="getPostTypeClassName(type)">
+	<h1 class="post-title" :class="getPostTypeClassName(type)" @click="handleMobileClick">
 		{{ title }}
 	</h1>
 </div>

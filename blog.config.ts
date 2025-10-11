@@ -35,9 +35,9 @@ const blogConfig = {
 	article: {
 		categories: {
 			[basicConfig.defaultCategory]: { icon: 'ph:folder-dotted-bold' },
-			经验分享: { icon: 'ph:mouse-bold', color: '#3af' },
+			经验分享: { icon: 'streamline-plump-color:beach', color: '#3af' },
 			杂谈: { icon: 'ph:chat-bold', color: '#3ba' },
-			生活: { icon: 'ph:shooting-star-bold', color: '#f77' },
+			生活: { icon: 'svg-spinners:wind-toy', color: '#f77' },
 			代码: { icon: 'ph:code-bold', color: '#77f' },
 			学习: { icon: 'ph:book-bold', color: '#fa3' },
 			随想: { icon: 'icon-park:bird', color: '' },
