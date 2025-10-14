@@ -27,6 +27,7 @@ export default defineAppConfig({
 		excerpt: {
 			animation: true,
 			caret: '_',
+
 		},
 
 		stats: {

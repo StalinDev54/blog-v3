@@ -6,7 +6,7 @@ updated: 2025-10-08 15:15:05
 image: https://wework.qpic.cn/wwpic3az/555818_smwXTTe0TRG3HOb_1760073844/0 # 图片
 type: story
 categories: [生活]
-recommend: 0
+recommend: 4
 tags: []
 --- 
 
