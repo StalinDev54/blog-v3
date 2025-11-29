@@ -22,20 +22,24 @@ export function parseNeteaseMusicUrl(url: string): string | null {
  * @param id 网易云音乐歌曲ID
  * @returns 音乐信息对象
  */
-export async function getNeteaseMusicInfo(id: string): Promise<{ url: string; cover: string }> {
+export async function getNeteaseMusicInfo(id: string): Promise<{ url: string; cover: string; name?: string; artist?: string }> {
     try {
         // 使用第三方API获取音乐信息
         const response = await fetch(`https://music.cenguigui.cn/?type=song&id=${id}`)
         const data = await response.json()
         return {
             url: data.url || '',
-            cover: data.pic || 'https://wework.qpic.cn/wwpic3az/503309_zafbLebUS7KK741_1764389837/0'
+            cover: data.pic || 'https://wework.qpic.cn/wwpic3az/503309_zafbLebUS7KK741_1764389837/0',
+            name: data.name || '',
+            artist: data.artist || ''
         }
     } catch (error) {
         console.error('获取网易云音乐信息失败:', error)
         return {
             url: '',
-            cover: 'https://wework.qpic.cn/wwpic3az/503309_zafbLebUS7KK741_1764389837/0'
+            cover: 'https://wework.qpic.cn/wwpic3az/503309_zafbLebUS7KK741_1764389837/0',
+            name: '',
+            artist: ''
         }
     }
 }
@@ -45,7 +49,7 @@ export async function getNeteaseMusicInfo(id: string): Promise<{ url: string; co
  * @param url 原始音乐链接
  * @returns 音乐信息对象
  */
-export async function parseMusicUrl(url: string): Promise<{ url: string; cover: string }> {
+export async function parseMusicUrl(url: string): Promise<{ url: string; cover: string; name?: string; artist?: string }> {
     // 检查是否为网易云音乐链接
     const neteaseId = parseNeteaseMusicUrl(url)
     if (neteaseId) {
@@ -57,6 +61,8 @@ export async function parseMusicUrl(url: string): Promise<{ url: string; cover: 
     console.log('使用直链:', url)
     return {
         url,
-        cover: 'https://wework.qpic.cn/wwpic3az/503309_zafbLebUS7KK741_1764389837/0'
+        cover: 'https://wework.qpic.cn/wwpic3az/503309_zafbLebUS7KK741_1764389837/0',
+        name: '',
+        artist: ''
     }
 }
