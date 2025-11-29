@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import MusicPlayer from './widget/musicPlayer.vue'
+
 const layoutStore = useLayoutStore()
 const hasAside = computed(() => layoutStore.asideWidgets?.length)
 const { translate } = storeToRefs(layoutStore)
+const contentStore = useContentStore()
 
+const { meta } = storeToRefs(contentStore)
 const panelTranslateStyle = computed(() => ({
 	transform: Object.values(translate.value).map(v => v ? `translate(${v})` : '').join(' '),
 }))
@@ -16,22 +20,17 @@ useEventListener('keydown', (event) => {
 
 <template>
 <div id="z-panel" :class="{ 'has-active': layoutStore.isAnyOpen }" :style="panelTranslateStyle">
-	<button
-		id="toggle-sidebar"
-		:class="{ active: layoutStore.isOpen('sidebar') }"
-		aria-label="切换菜单"
-		@click="layoutStore.toggle('sidebar')"
-	>
+	<button id="toggle-sidebar" :class="{ active: layoutStore.isOpen('sidebar') }" aria-label="切换菜单"
+		@click="layoutStore.toggle('sidebar')">
 		<Icon class="rtl-flip" name="ph:sidebar-duotone" />
 	</button>
-	<button
-		v-if="hasAside"
-		id="toggle-aside"
-		:class="{ active: layoutStore.isOpen('aside') }"
-		aria-label="切换侧边栏"
-		@click="layoutStore.toggle('aside')"
-	>
+	<button v-if="hasAside" id="toggle-aside" :class="{ active: layoutStore.isOpen('aside') }" aria-label="切换侧边栏"
+		@click="layoutStore.toggle('aside')">
 		<Icon class="rtl-flip" name="ph:align-right-duotone" />
+	</button>
+
+	<button v-if="meta?.music">
+		<MusicPlayer :url="meta.music" />
 	</button>
 </div>
 </template>
@@ -53,20 +52,24 @@ useEventListener('keydown', (event) => {
 		display: flex;
 	}
 
-	@media (min-width: $breakpoint-widescreen) {
-		display: none;
-	}
-
 	&.has-active {
 		box-shadow: 0 0 0.5rem var(--ld-shadow);
 	}
 }
 
-#toggle-sidebar, #toggle-search {
+#toggle-sidebar {
 	display: none;
 
 	@media (max-width: $breakpoint-mobile) {
 		display: block;
+	}
+
+}
+
+#toggle-aside {
+
+	@media (min-width: $breakpoint-widescreen) {
+		display: none;
 	}
 }
 
