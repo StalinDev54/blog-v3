@@ -125,22 +125,17 @@ onUnmounted(() => {
 	width: 40px;
 	height: 40px;
 	border-radius: 50%;
-	background: rgba(255, 255, 255, 0.8);
+
 	backdrop-filter: blur(10px);
 	cursor: pointer;
 	transition: all 0.3s ease;
 	padding: 0;
 
-	&:hover {
-		background: rgba(255, 255, 255, 0.9);
-		transform: scale(1.05);
-	}
 }
 
 #musicPlay.active {
 	animation: rotate 3s linear infinite;
-	background: rgba(255, 255, 255, 0.95);
-	box-shadow: 0 0 20px rgba(0, 123, 255, 0.3);
+
 }
 
 .musicCover {

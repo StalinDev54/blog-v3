@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import type ArticleProps from '~/types/article'
 import { useLayoutStore } from '~/stores/layout'
+import { parseMusicUrl } from '~/utils/music'
+import { ref, watch } from 'vue'
 
 defineOptions({ inheritAttrs: false })
-const props = defineProps<ArticleProps>()
+const props = defineProps<ArticleProps & { meta?: any }>()
 
 const appConfig = useAppConfig()
 const layoutStore = useLayoutStore()
@@ -11,7 +13,11 @@ const layoutStore = useLayoutStore()
 const categoryLabel = computed(() => props.categories?.[0])
 const categoryIcon = computed(() => getCategoryIcon(categoryLabel.value))
 
-const shareText = `【${appConfig.title}】${props.title}\n\n${props.description ? `${props.description}\n\n` : ''}${new URL(props.path!, appConfig.url).href}`
+const shareText = `【${appConfig.title}】${props.title}
+
+${props.description ? `${props.description}
+
+` : ''}${new URL(props.path!, appConfig.url).href}`
 
 const { copy, copied } = useCopy(shareText)
 
@@ -23,6 +29,34 @@ function handleMobileClick(event: MouseEvent) {
 		layoutStore.toggle('sidebar')
 	}
 }
+
+// 音乐信息相关
+const musicInfo = ref<{ name?: string; artist?: string } | null>(null)
+const isMusicInfoLoading = ref(false)
+
+// 解析音乐信息
+async function parseMusicInfo() {
+	if (props.meta?.music) {
+		isMusicInfoLoading.value = true
+		try {
+			const info = await parseMusicUrl(props.meta.music)
+			musicInfo.value = {
+				name: info.name,
+				artist: info.artist
+			}
+		} catch (error) {
+			console.error('解析音乐信息失败:', error)
+			musicInfo.value = null
+		} finally {
+			isMusicInfoLoading.value = false
+		}
+	}
+}
+
+// 监听音乐元数据变化
+watch(() => props.meta?.music, () => {
+	parseMusicInfo()
+}, { immediate: true })
 </script>
 
 <!-- 💩夸克浏览器，桌面端只有IE不支持 :has() 了 -->
@@ -56,6 +90,14 @@ function handleMobileClick(event: MouseEvent) {
 			<span @click="handleMobileClick">
 				<Icon name="ph:paragraph-bold" />
 				{{ formatNumber(readingTime?.words) }} 字
+			</span>
+
+			<span v-if="meta?.music" class="post-music-info" @click="handleMobileClick">
+				<Icon name="ph:music-note-bold" />
+				<span v-if="isMusicInfoLoading">解析中...</span>
+				<span v-else-if="musicInfo?.name">{{ musicInfo.name }}</span>
+				<span v-else>内置音乐</span>
+				<span v-if="musicInfo?.artist" class="music-artist"> - {{ musicInfo.artist }}</span>
 			</span>
 		</div>
 	</div>
@@ -163,6 +205,17 @@ function handleMobileClick(event: MouseEvent) {
 		flex-wrap: wrap;
 		gap: 0.5em 1.2em;
 		column-gap: clamp(1em, 3%, 1.5em);
+	}
+}
+
+// 音乐信息样式
+.post-music-info {
+	display: flex;
+	align-items: center;
+	gap: 0.25em;
+
+	.music-artist {
+		font-style: oblique;
 	}
 }
 </style>
