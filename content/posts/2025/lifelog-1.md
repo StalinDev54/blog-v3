@@ -8,6 +8,7 @@ type: story
 categories: [随想]
 tags: [生活, 随笔, 感情, 记录]
 music: https://music.163.com/#/song?id=29751621
+recommend: 7
 ---
 
 

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type ArticleProps from '~/types/article'
+import { ref, watch } from 'vue'
 import { useLayoutStore } from '~/stores/layout'
 import { parseMusicUrl } from '~/utils/music'
-import { ref, watch } from 'vue'
 
 defineOptions({ inheritAttrs: false })
 const props = defineProps<ArticleProps & { meta?: any }>()
@@ -15,9 +15,11 @@ const categoryIcon = computed(() => getCategoryIcon(categoryLabel.value))
 
 const shareText = `【${appConfig.title}】${props.title}
 
-${props.description ? `${props.description}
+${props.description
+		? `${props.description}
 
-` : ''}${new URL(props.path!, appConfig.url).href}`
+`
+		: ''}${new URL(props.path!, appConfig.url).href}`
 
 const { copy, copied } = useCopy(shareText)
 
@@ -31,7 +33,7 @@ function handleMobileClick(event: MouseEvent) {
 }
 
 // 音乐信息相关
-const musicInfo = ref<{ name?: string; artist?: string } | null>(null)
+const musicInfo = ref<{ name?: string, artist?: string } | null>(null)
 const isMusicInfoLoading = ref(false)
 
 // 解析音乐信息
@@ -42,12 +44,14 @@ async function parseMusicInfo() {
 			const info = await parseMusicUrl(props.meta.music)
 			musicInfo.value = {
 				name: info.name,
-				artist: info.artist
+				artist: info.artist,
 			}
-		} catch (error) {
+		}
+		catch (error) {
 			console.error('解析音乐信息失败:', error)
 			musicInfo.value = null
-		} finally {
+		}
+		finally {
 			isMusicInfoLoading.value = false
 		}
 	}
