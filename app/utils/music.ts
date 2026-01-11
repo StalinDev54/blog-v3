@@ -41,7 +41,7 @@ export async function getNeteaseMusicInfo(id: string): Promise<NeteaseMusicInfo>
         }
 
         // 2. 请求第三方API
-        const response = await fetch(`https://bd.qaiu.cn/meting/?type=song&id=${id}`)
+        const response = await fetch(`https://api.qijieya.cn/meting/?type=song&id=${id}`)
 
         // 3. 校验响应状态（非200/201直接抛错）
         if (!response.ok) {
