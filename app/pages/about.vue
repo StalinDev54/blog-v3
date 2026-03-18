@@ -167,10 +167,6 @@ const hobbies = [
 					title="Email:enltlh@gmail.com">
 					<Icon name="ph:envelope-simple-fill" />
 				</a>
-				<a href="https://qm.qq.com/q/9sljinl6rC" target="_blank" rel="noopener noreferrer"
-					title="QQ:1545433540">
-					<Icon name="ri:qq-fill" />
-				</a>
 			</div>
 		</div>
 	</div>
