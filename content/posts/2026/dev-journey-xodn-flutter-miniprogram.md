@@ -49,36 +49,39 @@ link: https://xodn.com/
 ---
 ::
 
-<div style="display: flex; gap: 12px; overflow-x: auto; padding: 8px 0 16px; -webkit-overflow-scrolling: touch;">
-  <figure style="flex: 0 0 auto; width: 200px; margin: 0; text-align: center;">
-    <img src="https://img.jiclub.site/file/1789545871852_ios_1_1-X3TpmpUn.jpg" alt="心元 · 启动页与视觉设计" style="width: 200px; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
-    <figcaption style="margin-top: 6px; font-size: 0.78em; color: var(--c-text-2, #888);">概念页</figcaption>
-  </figure>
-  <figure style="flex: 0 0 auto; width: 200px; margin: 0; text-align: center;">
-    <img src="https://img.jiclub.site/file/1789545871152_ios_1_2-C6FwInvP.jpg" alt="心元 · 角色选择界面" style="width: 200px; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
-    <figcaption style="margin-top: 6px; font-size: 0.78em; color: var(--c-text-2, #888);">移动端</figcaption>
-  </figure>
-  <figure style="flex: 0 0 auto; width: 200px; margin: 0; text-align: center;">
-    <img src="https://img.jiclub.site/file/1789545870657_ios_1_3-BqzEIvuk.jpg" alt="心元 · AI 角色对话主界面" style="width: 200px; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
-    <figcaption style="margin-top: 6px; font-size: 0.78em; color: var(--c-text-2, #888);">角色对话</figcaption>
-  </figure>
-  <figure style="flex: 0 0 auto; width: 200px; margin: 0; text-align: center;">
-    <img src="https://img.jiclub.site/file/1789545865115_ios_1_4-D8OhpE3M.jpg" alt="心元 · 数字人形象展示" style="width: 200px; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
-    <figcaption style="margin-top: 6px; font-size: 0.78em; color: var(--c-text-2, #888);">访谈模式</figcaption>
-  </figure>
-  <figure style="flex: 0 0 auto; width: 200px; margin: 0; text-align: center;">
-    <img src="https://img.jiclub.site/file/1789545867403_ios_1_5-1T1kwYzK.jpg" alt="心元 · 角色记忆与人格设定" style="width: 200px; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
-    <figcaption style="margin-top: 6px; font-size: 0.78em; color: var(--c-text-2, #888);">对话模式</figcaption>
-  </figure>
-  <figure style="flex: 0 0 auto; width: 200px; margin: 0; text-align: center;">
-    <img src="https://img.jiclub.site/file/1789545864077_ios_1_6-qG_dtwLY.jpg" alt="心元 · 功能模块与 Skills 配置" style="width: 200px; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
-    <figcaption style="margin-top: 6px; font-size: 0.78em; color: var(--c-text-2, #888);">全部角色</figcaption>
-  </figure>
-  <figure style="flex: 0 0 auto; width: 200px; margin: 0; text-align: center;">
-    <img src="https://img.jiclub.site/file/1789545868161_ios_1_7-DCVxE0ya.jpg" alt="心元 · 探索与发现页" style="width: 200px; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
-    <figcaption style="margin-top: 6px; font-size: 0.78em; color: var(--c-text-2, #888);">探索发现</figcaption>
-  </figure>
+<div style="width: 100%; max-width: 100%; min-width: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; box-sizing: border-box; margin: 1.2rem 0;">
+  <div style="display: flex; gap: 12px; width: max-content; padding: 4px 4px 14px;">
+    <figure style="flex: 0 0 170px; width: 170px; margin: 0; text-align: center;">
+      <img src="https://img.jiclub.site/file/1789545871852_ios_1_1-X3TpmpUn.jpg" alt="心元 · 概念页" style="width: 170px; height: auto; border-radius: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+      <figcaption style="margin-top: 6px; font-size: 0.78em; color: var(--c-text-2, #888);">概念页</figcaption>
+    </figure>
+    <figure style="flex: 0 0 170px; width: 170px; margin: 0; text-align: center;">
+      <img src="https://img.jiclub.site/file/1789545871152_ios_1_2-C6FwInvP.jpg" alt="心元 · 移动端" style="width: 170px; height: auto; border-radius: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+      <figcaption style="margin-top: 6px; font-size: 0.78em; color: var(--c-text-2, #888);">移动端</figcaption>
+    </figure>
+    <figure style="flex: 0 0 170px; width: 170px; margin: 0; text-align: center;">
+      <img src="https://img.jiclub.site/file/1789545870657_ios_1_3-BqzEIvuk.jpg" alt="心元 · 角色对话" style="width: 170px; height: auto; border-radius: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+      <figcaption style="margin-top: 6px; font-size: 0.78em; color: var(--c-text-2, #888);">角色对话</figcaption>
+    </figure>
+    <figure style="flex: 0 0 170px; width: 170px; margin: 0; text-align: center;">
+      <img src="https://img.jiclub.site/file/1789545865115_ios_1_4-D8OhpE3M.jpg" alt="心元 · 访谈模式" style="width: 170px; height: auto; border-radius: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+      <figcaption style="margin-top: 6px; font-size: 0.78em; color: var(--c-text-2, #888);">访谈模式</figcaption>
+    </figure>
+    <figure style="flex: 0 0 170px; width: 170px; margin: 0; text-align: center;">
+      <img src="https://img.jiclub.site/file/1789545867403_ios_1_5-1T1kwYzK.jpg" alt="心元 · 对话模式" style="width: 170px; height: auto; border-radius: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+      <figcaption style="margin-top: 6px; font-size: 0.78em; color: var(--c-text-2, #888);">对话模式</figcaption>
+    </figure>
+    <figure style="flex: 0 0 170px; width: 170px; margin: 0; text-align: center;">
+      <img src="https://img.jiclub.site/file/1789545864077_ios_1_6-qG_dtwLY.jpg" alt="心元 · 全部角色" style="width: 170px; height: auto; border-radius: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+      <figcaption style="margin-top: 6px; font-size: 0.78em; color: var(--c-text-2, #888);">全部角色</figcaption>
+    </figure>
+    <figure style="flex: 0 0 170px; width: 170px; margin: 0; text-align: center;">
+      <img src="https://img.jiclub.site/file/1789545868161_ios_1_7-DCVxE0ya.jpg" alt="心元 · 探索发现" style="width: 170px; height: auto; border-radius: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+      <figcaption style="margin-top: 6px; font-size: 0.78em; color: var(--c-text-2, #888);">探索发现</figcaption>
+    </figure>
+  </div>
 </div>
+
 
 ---
 

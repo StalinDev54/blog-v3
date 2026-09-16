@@ -144,4 +144,14 @@
 			text-indent: 2em;
 		}
 	}
+
+	// 防止数学公式或复杂块在移动端溢出撑大视口
+	.katex-display {
+		overflow-x: auto;
+		overflow-y: hidden;
+		max-width: 100%;
+		padding: 0.5em 0;
+		-webkit-overflow-scrolling: touch;
+	}
 }
+
