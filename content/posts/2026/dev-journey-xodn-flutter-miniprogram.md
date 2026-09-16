@@ -3,9 +3,10 @@ title: 我把大二的一年，留在了「心元」里
 description: 从一次偶然的项目机会，到一个人扛起 AI、数字人、Flutter、三端开发、服务器与产品上线。心元让我第一次真正走进技术、创业与职场，也让我第一次明白，热爱、责任、利益与成长从来不是同一件事。
 date: 2026-09-15 18:30:00
 updated: 2026-09-15 18:30:00
-image: https://wework.qpic.cn/wwpic3az/135007_Ctw2b2DBSzOvlsl_1789516171/0
+image: https://wework.qpic.cn/wwpic3az/661199_Ks-xBgE-S_Kf7NH_1789547551/0
 type: story
-categories: [个人成长]
+categories: [生活]
+recommend: 1
 tags: [心元, 独立开发, Flutter, AI, 数字人, Supabase, PostgreSQL, pgvector, BaaS, 架构设计, 创业, 大学生, 技术成长, 随笔]
 ---
 
@@ -37,16 +38,47 @@ tags: [心元, 独立开发, Flutter, AI, 数字人, Supabase, PostgreSQL, pgvec
 
 在展开回忆前先作说明：**目前我已经完全退出，不再参与「心元」项目的任何后续研发与运维。**
 
-这篇文章记录了我作为核心开发者，从零搭建起这套全端架构、AI 链路并推动商业交付的完整历程。主站的前端交互、流体毛玻璃视觉与多端AI角色对话能力同样由我一手敲定与开发。如果好奇它最终落地的形态，可以由此窥见当时的心血：
+这篇文章记录了我作为核心开发者，从零搭建起这套全端架构、AI 链路并推动商业交付的完整历程。主站的前端交互、流体毛玻璃视觉与多端AI角色对话能力同样由我一手敲定与开发，包括后面宣传运维图设计、产品逻辑与架构设计等等。如果好奇它最终落地的形态，可以由此窥见当时的心血：
 
 ::link-banner
 ---
-banner: https://xodn.com/assets/ios_1_3-BqzEIvuk.jpg
-title: 心元官方网站
+banner: https://wework.qpic.cn/wwpic3az/562505_JEZ98cSmR96VWKK_1789546812/0
+title: 心元(Xodn.com)官方网站
 description: 由我主导架构设计研发的角色AI交互平台
 link: https://xodn.com/
 ---
 ::
+
+<div style="display: flex; gap: 12px; overflow-x: auto; padding: 8px 0 16px; -webkit-overflow-scrolling: touch;">
+  <figure style="flex: 0 0 auto; width: 200px; margin: 0; text-align: center;">
+    <img src="https://img.jiclub.site/file/1789545871852_ios_1_1-X3TpmpUn.jpg" alt="心元 · 启动页与视觉设计" style="width: 200px; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+    <figcaption style="margin-top: 6px; font-size: 0.78em; color: var(--c-text-2, #888);">概念页</figcaption>
+  </figure>
+  <figure style="flex: 0 0 auto; width: 200px; margin: 0; text-align: center;">
+    <img src="https://img.jiclub.site/file/1789545871152_ios_1_2-C6FwInvP.jpg" alt="心元 · 角色选择界面" style="width: 200px; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+    <figcaption style="margin-top: 6px; font-size: 0.78em; color: var(--c-text-2, #888);">移动端</figcaption>
+  </figure>
+  <figure style="flex: 0 0 auto; width: 200px; margin: 0; text-align: center;">
+    <img src="https://img.jiclub.site/file/1789545870657_ios_1_3-BqzEIvuk.jpg" alt="心元 · AI 角色对话主界面" style="width: 200px; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+    <figcaption style="margin-top: 6px; font-size: 0.78em; color: var(--c-text-2, #888);">角色对话</figcaption>
+  </figure>
+  <figure style="flex: 0 0 auto; width: 200px; margin: 0; text-align: center;">
+    <img src="https://img.jiclub.site/file/1789545865115_ios_1_4-D8OhpE3M.jpg" alt="心元 · 数字人形象展示" style="width: 200px; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+    <figcaption style="margin-top: 6px; font-size: 0.78em; color: var(--c-text-2, #888);">访谈模式</figcaption>
+  </figure>
+  <figure style="flex: 0 0 auto; width: 200px; margin: 0; text-align: center;">
+    <img src="https://img.jiclub.site/file/1789545867403_ios_1_5-1T1kwYzK.jpg" alt="心元 · 角色记忆与人格设定" style="width: 200px; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+    <figcaption style="margin-top: 6px; font-size: 0.78em; color: var(--c-text-2, #888);">对话模式</figcaption>
+  </figure>
+  <figure style="flex: 0 0 auto; width: 200px; margin: 0; text-align: center;">
+    <img src="https://img.jiclub.site/file/1789545864077_ios_1_6-qG_dtwLY.jpg" alt="心元 · 功能模块与 Skills 配置" style="width: 200px; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+    <figcaption style="margin-top: 6px; font-size: 0.78em; color: var(--c-text-2, #888);">全部角色</figcaption>
+  </figure>
+  <figure style="flex: 0 0 auto; width: 200px; margin: 0; text-align: center;">
+    <img src="https://img.jiclub.site/file/1789545868161_ios_1_7-DCVxE0ya.jpg" alt="心元 · 探索与发现页" style="width: 200px; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.15);" />
+    <figcaption style="margin-top: 6px; font-size: 0.78em; color: var(--c-text-2, #888);">探索发现</figcaption>
+  </figure>
+</div>
 
 ---
 
@@ -343,27 +375,25 @@ TTS 语音合成流          Viseme / 口型权重提取      客户端预加载
 
 ---
 
-### 架构突围：五月天使轮、每日业务打卡与全面旷课狂奔
+### 架构突围：五月天使轮、旷课狂奔与一腔极致的纯粹
 
-在五月之前，哪怕寒假退票在出租屋里自费啃框架，整个项目的推进依然属于**在大学校园里利用课余时间的业余自发摸索**。上课、去自习室、在宿舍熬夜敲代码，节奏虽苦，但性质是学生在象牙塔里的自由钻研，没有外部资方的监管，也没有制度化的考勤。
+在五月之前，哪怕寒假退票在出租屋里自费啃框架，整个项目的推进依然属于**在大学校园里利用课余时间的业余自发摸索**。上课、去自习室、在宿舍熬夜敲代码，节奏虽苦，但性质是学生在象牙塔里的自由钻研。
 
 但到了大二下学期的五月，资本的风吹了进来。
 
-资方作为赵老师的旧友参与了项目，引入了天使轮投资，对外宣称融资约 50 万元。随着媒体宣传与资金入场，原本温吞松散的校园探索被瞬间推进了**商业化的高压绞肉机**。
+资方作为赵老师的旧友参与了项目，引入了天使轮投资，对外宣称融资约 50 万元。随着媒体宣传与资金入场，团队开始推行每日业务打卡：每天汇报一下工作进展与落地情况即可。说实话这个制度本身并不严苛，哪怕只是简单打个卡、说说今天做了什么，也完全够了。其他人基本上也就这样对待它。
 
-最先落地的就是冷酷的制度化约束：**团队开始推行的每日业务打卡与工作汇报**。每天复盘交付，实现事事有回应与落实。
+但我不是。
 
-但与正规考勤极不匹配的，是严重失衡的单兵工程重压：用户鉴权系统、支付业务、邀请裂变机制、Skills 提示词动态注入、角色蒸馏、上下文记忆管理与向量召回……更致命的是，团队定死了不可逾越的时间节点：**必须按期保质完成 Web、Android、iOS 三端开发，并于 6 月中旬正式面向公众上线公测！**
+**我比所有人都更着急，但却也比所有人都更纯粹。**
 
-团队内部的人手断层却在此时暴露无遗：另外一位技术由于是半途拉来的，有自己的想法和松懈的节奏；万般无奈下我跑回班级拉来的同班同学，也因技术门槛与高压节奏难以支撑。
+眼看着 6 月中旬的上线死线一天天逼近，满脑子全是跑不通的接口、还没打通的三端适配、没有做完的支付业务与邀请裂变……不是外部逼我，而是我自己根本停不下来：用户鉴权系统、Skills 提示词动态注入、角色蒸馏、上下文记忆管理与向量召回——每一个模块都卡在我的脑子里嗡嗡作响。
 
-眼看着 6 月死线一天天逼近，一人挑起三端与整个后端的工程量如泰山压顶。在巨大的现实压迫下，我做出了一个近乎疯狂的决绝决定：
+不是被人压着干，而是我自己比谁都更急、更拼，主动把自己焊死在了键盘上。每天一睁眼脑子里全在飞速运转如何推进架构，整天整夜地死磕。
 
-**大二下学期剩下的所有大学课程——无论是专业必修课还是公共课，我全部不去上了！**
+而事实是，面对同一套打卡制度，那位跟我一起的技术同学只是老实打卡应付、不多做一步；而我是把每天的打卡当成了最低门槛，然后拼命往远超门槛的方向狂奔
 
-我彻底断掉了自己的所有退路，每天一睁眼脑子里全在飞速运转如何推进架构，整天整夜焊死在键盘上拼命干。
-
-而更为讽刺的是，面对如此严苛的每日业务打卡、全职般的高压输出以及三端全栈的重担，**当时发给我的研发补贴仅仅只有可怜的每月 1000 元**。每天吃着寒酸的外卖，但我当时根本顾不上计较这些——想到我们是一个团队，想到学校这边马上要搞重要的路演答辩，如果核心功能拿不出手大家在台上不好展示，想到赵老师定下的上线目标，我就只想拼尽全力快速把底层核心管道全部打通。
+而更为讽刺的是，如此全力以赴，**当时发给我的研发补贴仅仅只有可怜的每月 1000 元**。每天吃着寒酸的外卖，但我当时根本顾不上计较这些——想到我们是一个团队，想到学校这边马上要搞重要的路演答辩，如果核心功能拿不出手大家在台上不好展示，想到赵老师定下的上线目标，我就只想拼尽全力快速把底层核心管道全部打通。
 
 > **Demo 与商业产品之间相隔的，从来不是几百行代码，而是一整套严密防御、容灾与高并发的现代化工程体系。**
 
@@ -623,7 +653,7 @@ location /api/v1/chat/stream {
 
 整个五月，因为资方进场后推行的每日业务打卡与严苛的三端上线死线，我彻底放弃了大学本学期的所有课程，整整一个多月连教室门都没迈进过一次。
 
-直到六月初大学期末考试周猝然降临，现实的撕裂感达到了顶点：一边是完全空白的考勤与从来没听过的专业课试卷，我只能硬着头皮坐在考场里强撑精神答题；而另一边，则是团队定死的绝对死命令：**6 月中旬必须全端正式上线，并通过赵老师的个人微博向全网公众宣发！**
+直到六月初大学期末考试周猝然降临，现实的撕裂感达到了顶点：一边是完全空白的考勤与从来没听过的专业课试卷，我只能硬着头皮坐在考场里强撑精神答题；而另一边，则是团队定死的绝对死命令：**6 月中旬网页须正式上线，并通过赵老师的个人微博向全网公众宣发！**
 
 交卷铃声一响，我便立刻狂奔回工位与出租屋屏幕前，通宵达旦地排查 Bug、做 iOS/Android/Web 三端真机联调、优化 SSE 长连接并跑全端打包发布。白天是考场，夜晚是战场。这一路走来的艰辛、荒诞与极限拉扯，真的只有我自己明白。
 
@@ -665,7 +695,7 @@ location /api/v1/chat/stream {
 
 当时资方许诺：进入暑期全职阶段后，研发补贴可以上升到每月 2500 至 3000 元的正常工资。虽然以我当时的跨端全栈架构与独立交付能力，这个薪资远不如去外部市场上找一份体面的大厂实习，但我依然毫不犹豫地选择留下——因为我太相信这个项目了，我早已把「心元」当成自己的孩子，抱着倾尽全力的心态去开发这一切。
 
-在我的设想中，正规商业融资后的集中办公，理应是一个像模像样的写字楼办公室，大家像正规科技公司一样正式立项协同。可真正拎着行李到了现场才发现，**所谓的工位其实只是在某个普通的小区居民楼里。**
+在我的设想中，正规商业融资后的集中办公，理应是一个像模像样的写字楼办公室，大家像正规科技公司一样正式立项协同。可真正拎着行李到了现场才发现，**所谓的工位其实只是在某个小区居民楼里。**
 
 现实的齿轮很快开始无情地咬合：
 
@@ -740,6 +770,22 @@ location /api/v1/chat/stream {
 
 ### 淬炼之后：技术人的成人礼
 
+$$
+\raisebox{-3pt}{\colorbox{#6B8E9F}{\color{white}{\large\text{那}}}}\kern-2pt
+\raisebox{0pt}{\colorbox{#5BA88C}{\color{white}{\Large\text{一}}}}\kern-2pt
+\raisebox{-4pt}{\colorbox{#4A90A4}{\color{white}{\large\text{年}}}}\kern-3pt
+\raisebox{-1pt}{\colorbox{#A8D5E2}{\color{#2C4A52}{\normalsize\text{很}}}}\kern-1pt
+\raisebox{-5pt}{\colorbox{#B8E0D0}{\color{#2C4A52}{\large\text{累}}}}\kern-2pt
+\raisebox{-2pt}{\colorbox{#7BC4B5}{\color{white}{\normalsize\text{，}}}}\kern-1pt
+\raisebox{0pt}{\colorbox{#5A9AA8}{\color{white}{\Large\text{很}}}}\kern-2pt
+\raisebox{-3pt}{\colorbox{#C5E0E8}{\color{#2C4A52}{\large\text{笨}}}}\kern-2pt
+\raisebox{-1pt}{\colorbox{#4A90A4}{\color{white}{\normalsize\text{拙}}}}\kern-3pt
+\raisebox{-4pt}{\colorbox{#A8D5E2}{\color{#2C4A52}{\large\text{，}}}}\kern-1pt
+\raisebox{-2pt}{\colorbox{#5BA88C}{\color{white}{\Large\text{也}}}}\kern-2pt
+\raisebox{0pt}{\colorbox{#6B8E9F}{\color{white}{\large\text{很}}}}\kern-3pt
+\raisebox{-5pt}{\colorbox{#B8E0D0}{\color{#2C4A52}{\large\text{纯}}}}\kern-1pt
+\raisebox{-2pt}{\colorbox{#C5E0E8}{\color{#2C4A52}{\Large\text{粹}}}}
+$$
 离开的那天，我坐在空旷的长椅上，慢慢解开了心里的死结。
 
 曾经的我以为，团队就是一群心怀信仰的人奔赴同一片星海；后来我才懂得，商业语境下的组织，本质是**目标、责任、利益与权力规则的严密契约**。
@@ -769,20 +815,36 @@ location /api/v1/chat/stream {
 
 老师、同窗、合伙人、投资人，皆是过客。真正重要的，是在潮起潮落之后，你是否依然保有出发时的火种。
 
-::alert{type="info" title="车轮向前，下一程已在路上"}
+
 
 如今，我依然在敲击着 Flutter，依然在深耕移动端与 AI 的深度融合，依然在构建属于自己的新产品。
 
 我不再执念于某个具体的标签，因为我知道：
 
-**代码可以被交接，项目可以被剥离，但那些在深夜出租屋里与 Bug 厮杀出的肌肉记忆、那套完整的产品感知力，早已刻进了骨髓，谁也夺不走。**
+代码可以被交接，项目可以被剥离，但那些在深夜出租屋里与 Bug 厮杀出的肌肉记忆、那套完整的产品感知力，**早已刻进了骨髓，谁也夺不走。**
 
-那一年很累，很笨拙，也很纯粹。
 
 承蒙关照，心元这一站，我已全力以赴。
 
-车轮向前，下一程，已在路上。
 
-::
 
+$$
+\raisebox{-2pt}{\colorbox{#1D1D1F}{\color{white}{\Large\text{代}}}}\kern-2pt
+\raisebox{-4pt}{\colorbox{#424245}{\color{white}{\large\text{码}}}}\kern-3pt
+\raisebox{-1pt}{\colorbox{#6E6E73}{\color{white}{\normalsize\text{刻}}}}\kern-1pt
+\raisebox{-3pt}{\colorbox{#0071E3}{\color{white}{\large\text{进}}}}\kern-2pt
+\raisebox{0pt}{\colorbox{#2997FF}{\color{white}{\normalsize\text{骨}}}}\kern-3pt
+\raisebox{-5pt}{\colorbox{#5AC8FA}{\color{white}{\large\text{髓}}}}\kern-1pt
+\raisebox{-2pt}{\colorbox{#D2D2D7}{\color{#1D1D1F}{\Large\text{里}}}}
+
+\quad
+
+\raisebox{-4pt}{\colorbox{#424245}{\color{white}{\large\text{车}}}}\kern-2pt
+\raisebox{-1pt}{\colorbox{#1D1D1F}{\color{white}{\Large\text{轮}}}}\kern-3pt
+\raisebox{-3pt}{\colorbox{#0071E3}{\color{white}{\normalsize\text{向}}}}\kern-1pt
+\raisebox{-5pt}{\colorbox{#2997FF}{\color{white}{\large\text{前}}}}\kern-2pt
+\raisebox{-2pt}{\colorbox{#5AC8FA}{\color{#1D1D1F}{\Large\text{行}}}}\kern-3pt
+\raisebox{0pt}{\colorbox{#6E6E73}{\color{white}{\normalsize\text{不}}}}\kern-1pt
+\raisebox{-3pt}{\colorbox{#D2D2D7}{\color{#1D1D1F}{\large\text{止}}}}
+$$
 :blog-header
