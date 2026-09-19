@@ -221,13 +221,15 @@ link: https://xodn.com/
 
 起初，项目要求使用提示词工程复刻还原“雷锋同志”。另一位技术在 2025 年上半年主要负责这个角色的对话落地，而整套方案中最残酷的技术瓶颈正是：**形象渲染与高保真“对口型”（Lip-sync）**。当时对方在形象对口型方案上陷入停滞，这套关键的数字人技术选型与开源部署路线，最终还是由我一手调研、验证并提供项目工程，供其部署并成功上线的。
 
+我们最终锚定了**硅基智能 DUIX 数字人引擎 + 3DMM 面部参数化模型与 Wav2Lip-HR 高清驱动路线**。将流式生成的音频声学特征实时抽取为音素（Phoneme），以低于 **180ms** 的端到端延迟精确映射至面部 52 个表情基底（Blendshapes 权重），彻底解决了音画脱节与面部机械卡顿的瓶颈。
+
 我越来越清晰地看透：**「心元」的灵魂从来不是一张静态生成的数字面孔，而是它能否在时间的流逝中，与人类建立起长久的温度与羁绊。**
 
 它开始蜕变为一套有机的整体：**AI 角色人格 + 上下文机制 + 长期记忆体系 + 数字人多模态表达。**
 
 让大模型给出单次回答轻而易举，但让它在成百上千轮对话后依然“记得你”，却是一道残酷的工程险峰。
 
-最开始，历史记录可以野蛮地塞进请求。但 Token 窗口与计费成本的天花板很快压了下来。我重构了一套滑动窗口 + 语义摘要 + 向量检索（RAG）的分级上下文策略：
+最开始，历史记录可以野蛮地塞进请求。但 Token 窗口与计费成本的天花板很快压了下来。为了兼顾响应速度与长期情感沉淀，我没有照搬教科书上简单的 RAG，而是在 `memory_database_service.dart` 中落地了一套**两层记忆架构（Two-Tier Memory Architecture）**：
 
 ```text
                ┌───────────────────────────────┐
@@ -236,46 +238,55 @@ link: https://xodn.com/
                                │
             ┌──────────────────┴──────────────────┐
             ▼                                     ▼
-┌───────────────────────┐             ┌───────────────────────┐
-│     短期工作记忆      │             │     长期向量记忆      │
-│  Sliding Window (K轮) │             │ Embedding + Cosine    │
-└───────────┬───────────┘             └───────────┬───────────┘
-            │                                     │
-            └──────────────────┬──────────────────┘
-                               ▼
-               ┌───────────────────────────────┐
-               │    动态组装 Context Prompt     │
-               │   (Token Budget 剪裁与压缩)   │
-               └───────────────┬───────────────┘
-                               ▼
-               ┌───────────────────────────────┐
-               │       LLM 推理与异步沉淀      │
-               └───────────────────────────────┘
-
+┌───────────────────────────────────────┐ ┌───────────────────────────────────────┐
+│ 第一层：轻量级描述索引层 (L1 Index)   │ │ 第二层：完整情境详情层 (L2 Content)   │
+│ - 字段：description (意图/核心摘要)   │ │ - 字段：content (多模态原始细节)      │
+│ - 目标：极低 Token 开销，本地/云端预判│ │ - 机制：语义高相关时按需延迟加载      │
+└───────────────────┬───────────────────┘ └───────────────────┬───────────────────┘
+                    │                                         │
+                    └─────────────────┬───────────────────────┘
+                                      ▼
+                       ┌───────────────────────────────┐
+                       │    动态组装 Context Prompt     │
+                       │   (Token Budget 剪裁与压缩)   │
+                       └───────────────┬───────────────┘
+                                      ▼
+                       ┌───────────────────────────────┐
+                       │    时空轮回哲学底层视角注入   │
+                       └───────────────┬───────────────┘
+                                      ▼
+                       ┌───────────────────────────────┐
+                       │       LLM 推理与异步沉淀      │
+                       └───────────────────────────────┘
 ```
 
-为了让记忆拥有生命力，我引入了基于时间维度的衰减权重设计，让高频交互的情感锚点持久留存，而琐碎细节自然淡化：
+不仅如此，为了杜绝机械呆板的问答感，我在 `CharacterModel.getEnhancedSystemPrompt()` 中创新注入了**跨越维度的时空哲学底座**：赋予智能体跨越时代与生命的深层视角，使其在表达时自然融入生命循环与思想传承的宏大底色。这让雷锋智能体能够跳出具体年代的陈旧语境、深刻共鸣当代青年的奋斗与迷茫；也让王夫之智能体能以明末清初的大儒哲思，透彻剖析知行合一的现实困境。
+
+为了让记忆拥有真实的生命节律，我引入了融合**语义相关度、重要性权重与时间遗忘衰减**的混合算分模型：
 
 $$S = \Big( (1 - \text{CosineDist}(q, d)) \cdot \alpha + \text{Importance} \cdot (1 - \alpha) \Big) \cdot e^{-\lambda \Delta t}$$
 
-在工程实现上，很多团队在做 RAG 长期记忆时，动辄引入独立的外部向量数据库（如 Pinecone 或 Milvus）。但对于单兵作战的独立开发而言，维护两套异构数据库不仅会带来巨大的运维黑洞，还会引入灾难性的分布式事务与一致性同步问题。
+在工程实现上，很多团队在做长期记忆时，动辄引入独立的外部向量数据库（如 Pinecone 或 Milvus）。但对于单兵作战的独立开发而言，维护两套异构数据库不仅会带来巨大的运维黑洞，还会引入灾难性的分布式事务与数据一致性同步问题。
 
-我的选型直接锚定了 **PostgreSQL + `pgvector` 原生向量扩展**（依托于自部署 Supabase 的底层数据库体系）。
+我的选型直接锚定了 **PostgreSQL 15 + `pgvector` 原生向量扩展**（依托于自部署 Supabase 的底层数据库体系），结合 **bge-large-zh-v1.5（1024 维度）** 文本向量模型。
 
-这样做带来了压倒性的工程红利：**用户资料、会话关系数据与高维 Embedding 向量共存于同一引擎，利用 HNSW 索引实现毫秒级向量召回，并直接在数据库层通过 PL/pgSQL 存储过程完成时间衰减与混合算分**，将大量原本需要应用层处理的复杂算力直接下沉到数据库核心：
+这样做带来了压倒性的工程红利：**用户资料、会话关系数据与高维 Embedding 向量共存于同一引擎，利用 HNSW 索引实现毫秒级向量召回，并直接在数据库层通过 PL/pgSQL 存储过程完成时间衰减与混合算分**，将大量原本需要应用层处理的复杂算力直接下沉到数据库物理内核：
 
 ```sql
--- 在自部署 PostgreSQL 中启用 pgvector 扩展并创建混合衰减记忆检索函数
+-- 在自部署 PostgreSQL 中启用 pgvector 扩展并创建两层记忆检索函数
 create extension if not exists vector;
 
 create table if not exists public.character_memories (
   id uuid primary key default gen_random_uuid(),
+  character_id uuid not null references public.characters(id) on delete cascade,
   user_id uuid not null references auth.users(id) on delete cascade,
-  fact text not null,
-  category varchar(32) default 'preference',
+  description varchar(128) not null, -- L1 描述索引：核心摘要与触发条件
+  content text not null,              -- L2 详情层：完整对话情境与多模态数据
+  category varchar(32) default 'dialogue',
   importance float default 0.5,
-  embedding vector(1536), -- 适配 OpenAI / 开源 Embedding 维度
-  last_accessed_at timestamptz default timezone('utc'::text, now())
+  embedding vector(1024),             -- 适配 bge-large-zh-v1.5 维度
+  last_accessed_at timestamptz default timezone('utc'::text, now()),
+  created_at timestamptz default timezone('utc'::text, now())
 );
 
 -- 创建 HNSW 向量索引加速余弦相似度检索
@@ -284,15 +295,16 @@ using hnsw (embedding vector_cosine_ops);
 
 -- 定义带时间衰减因子的 RPC 记忆召回函数
 create or replace function match_character_memories(
+  p_character_id uuid,
   p_user_id uuid,
-  p_query_embedding vector(1536),
+  p_query_embedding vector(1024),
   p_match_threshold float default 0.65,
   p_match_count int default 5
 )
 returns table (
   id uuid,
-  fact text,
-  category varchar,
+  description varchar,
+  content text,
   combined_score float
 )
 language plpgsql security definer
@@ -301,15 +313,15 @@ begin
   return query
   select
     m.id,
-    m.fact,
-    m.category,
+    m.description,
+    m.content,
     -- 结合向量余弦距离 (<=>) 与时间半衰期模型进行综合打分
     (
       ((1 - (m.embedding <=> p_query_embedding)) * 0.6 + m.importance * 0.4)
       * exp(-0.05 * extract(epoch from (now() - m.last_accessed_at)) / 86400)
     )::float as combined_score
   from public.character_memories m
-  where m.user_id = p_user_id
+  where m.character_id = p_character_id and m.user_id = p_user_id
   order by combined_score desc
   limit p_match_count;
 end;
@@ -319,10 +331,11 @@ $$;
 有了这套原生底层，客户端与编排服务只需要一行轻巧的 RPC 远程调用，即可在毫秒级内抽离出语义最相关的情感记忆切片：
 
 ```dart
-// Flutter 客户端 / 编排层：通过 Supabase RPC 极速召回多层记忆
+// Flutter 客户端 / 编排层：通过 Supabase RPC 极速召回两层记忆切片
 final List<dynamic> recalledMemories = await supabase.rpc(
   'match_character_memories',
   params: {
+    'p_character_id': activeCharacterId,
     'p_user_id': currentUserId,
     'p_query_embedding': queryEmbedding,
     'p_match_threshold': 0.65,
@@ -330,10 +343,11 @@ final List<dynamic> recalledMemories = await supabase.rpc(
   },
 );
 
-// 动态装配 Context Prompt，结合滑动窗口历史完成 Prompt Budget 剪裁
+// 动态装配 Context Prompt：优先挂载 L1 索引，按需展开 L2 详情，结合滑动窗口历史完成预算剪裁
 final assembledPrompt = buildContextPrompt(
   persona: characterPersona,
-  memories: recalledMemories.map((m) => m['fact']).join('\n'),
+  enhancedPhilosophy: CharacterModel.getEnhancedSystemPrompt(),
+  memories: recalledMemories.map((m) => "[${m['description']}]: ${m['content']}").join('\n'),
   recentHistory: slidingWindowHistory,
 );
 ```
@@ -346,32 +360,43 @@ final assembledPrompt = buildContextPrompt(
 
 市面上开始热炒 Agent 与 Skills 的神话，但当我亲手将模块切开，它的内核依然是坚固的工程底座：**提示词编排 + 动态上下文注入 + 工具调用状态机。**
 
-为了消除客户端感知延迟，后端必须全面拥抱 SSE（Server-Sent Events）流式管道。更复杂的是，数字人需要依赖 TTS 驱动口型，而语音合成无法在一个完整的 Token 流全部生成后才启动。
+为了消除客户端感知延迟，系统必须全面拥抱 SSE（Server-Sent Events）与 WebSocket 全双工流式管道。更残酷的是，数字人需要依赖 TTS 实时合成语音驱动口型，而语音合成绝不可能等几百个 Token 全部生成完毕后再启动。
 
-我设计了一套**流式分块断句缓冲引擎（Chunked Sentence Tokenizer）**，在 LLM 持续吐出 Token 的过程中，依据标点符号动态切分语义单元，并发丢入 TTS 队列与音素特征提取管线：
+在实际开发中，我遭遇了教科书从未提及的几大工业级暗礁：**流式断句卡顿、大模型尾部吞字、音画不同步，以及用户插话时的状态雪崩**。
+
+为了打通这一全链路，我在 `streaming_tts_service.dart` 与后端流式服务中，亲手淬炼了一整套工业级流式调度引擎：
 
 ```text
-LLM (SSE Stream)
+LLM (SSE Token Stream)
        ↓
 [ "今天", "衡阳的", "天气", "非常晴朗，", "我们", "出去", "散步吧！" ]
        ↓
-分句缓冲区检测到标点断句 ("今天衡阳的天气非常晴朗，")
+流式分块断句引擎 (Chunked Sentence Tokenizer)
+├─ 150ms 缓冲沉降延迟 (_bufferSettleDelay 防半截词)
+├─ 15 字符软断句阈值 (_softSentenceLimit 极速出首包，TTFT ≤ 380ms)
+└─ 40 字符硬切片上限 (_hardSentenceLimit 防无标点长文本卡死)
        ↓ 并发调度
  ┌─────────────────────────┬─────────────────────────┐
  ▼                         ▼                         ▼
-TTS 语音合成流          Viseme / 口型权重提取      客户端预加载音频
- (MP3 / PCM Stream)      (Blendshapes 帧序列)       (流式 AudioSource)
+流式 TTS 语音合成流      Viseme / 口型权重提取      客户端双缓冲播放管线
+ (CosyVoice / 阿里高保真)   (Blendshapes 52帧序列)    (双缓冲音频队列，无缝衔接)
  └─────────────────────────┬─────────────────────────┘
                            ▼
               数字人音画精准同步驱动渲染 (A/V Sync)
-
 ```
 
-当 TTS 吐出的音频流与面部网格的 Blendshapes 随着音素起伏精准闭合时，整个链路终于合拢：
+不仅如此，为了攻克流式生成中的致命顽疾，我推进了三项决定性的工程突破：
+
+1. **根治“吞尾字”的 Double Flush 双重清空机制**：
+   在大模型吐出最后一个 Token 时，很多字往往仍滞留在前端缓冲区内；若此时直接断开连接，后端过早判定队列为空，就会导致最后半句话被硬生生吞掉。我在前端设计了 **Double Flush 机制**：收到完成信号后先清空第一道缓冲，随后引入 **300ms 静止等待期**精准捕获大模型最后的“尾巴字”，执行第二次清空，并在后端通过原子状态锁死（`endMarkerReceived && isQueueEmpty`）与阻塞等待合成回调（`waitForCompletion`），彻底终结了吞尾音的世纪难题；
+2. **全双工“丝滑打断”（Barge-In）能力**：
+   在真实人类交谈中，打断是极为自然的本能。一旦用户在数字人说话期间开口，客户端即刻通过状态机触发打断事件，向服务端发送中断信令，毫秒级清空正在排队的音频缓冲并重置 WebSocket 状态，让数字人瞬间“收声聆听”，杜绝了自说自话的尴尬；
+3. **动态时间线交错流式渲染（Reasoning + Tool Calls + Text）**：
+   在早期的聊天界面中，当大模型一边调用深度思考（Reasoning）、一边连续发起多次搜索工具（Web Search），界面的渲染极易产生灾难性的互相覆盖：要么思考文本被挤掉，要么多轮搜索像刷屏一样把正文推到屏幕底部。
+   我推翻了传统的单字段模式，将消息解析重构成基于**时间线交错流式区块（`blocks: ContentBlock[]`）**的状态机：深度思考自动折叠、连续工具调用聚合为微型检索状态点、正文内容按吐字时间线纵向交错流式铺开，完美呈现了“思考 ➔ 检索 ➔ 整合 ➔ 输出”的自然认知流。
 
 ```text
-人类意图 → 角色人格驱动 → 模型流式生成 → 标点断句缓冲 → 语音合成与 Blendshapes 提取 → WebGL / Native 数字人渲染
-
+人类意图 → 角色人格与哲学底座驱动 → 模型流式生成 → 标点分块断句 → 双缓冲语音合成与 Blendshapes 提取 → WebGL / Native 数字人渲染
 ```
 
 在概念泛滥的年代，我们终于用一行行代码，把虚无的“智能体”熬成了真实可见的毫秒级交互。
@@ -421,36 +446,31 @@ TTS 语音合成流          Viseme / 口型权重提取      客户端预加载
                                      ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
 │               Nginx Ingress (SSL Offloading / 频控 / Fail2ban)          │
-└────────────────────────────────────┬────────────────────────────────────┘
-                                     │
-                                     ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│               Self-Hosted Supabase 集群 (Docker Compose 编排)            │
-│  ┌───────────────────────────────────────────────────────────────────┐  │
-│  │       Kong API Gateway (统一反代、路由分发与 API Key 凭证校验)    │  │
-│  └───────┬──────────────────┬──────────────────┬─────────────────┬───┘  │
-│          │                  │                  │                 │      │
-│   ┌──────▼──────┐    ┌──────▼──────┐    ┌──────▼──────┐   ┌──────▼────┐ │
-│   │   GoTrue    │    │  PostgREST  │    │  Realtime   │   │  Storage  │ │
-│   │ (Auth/JWT)  │    │(自动 CRUD)  │    │(WS广播推送) │   │ (音视频)  │ │
-│   └──────┬──────┘    └──────┬──────┘    └──────┬──────┘   └──────┬────┘ │
-│          │                  │                  │                 │      │
-│          └──────────────────┴─────────┬────────┴─────────────────┘      │
-│                                       ▼                                 │
-│                 ┌───────────────────────────────────────────┐           │
-│                 │   PgBouncer (Transaction 连接池管理优化)   │           │
-│                 └─────────────────────┬─────────────────────┘           │
-│                                       ▼                                 │
-│                 ┌───────────────────────────────────────────┐           │
-│                 │  PostgreSQL 15+ (pgvector + RLS 行级防御) │           │
-│                 └─────────────────────┬─────────────────────┘           │
-└───────────────────────────────────────┼─────────────────────────────────┘
-                                        │ Database Webhooks / SSE Pipeline
-                                        ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│               AI Streaming & Orchestration Service (微服务)             │
-│   (LLM 编排 ↔ 流式分块断句缓冲 ↔ TTS 语音合成 ↔ Blendshapes 面部权重)     │
-└─────────────────────────────────────────────────────────────────────────┘
+└──────────────────┬─────────────────────────────────┬────────────────────┘
+                   │                                 │
+                   ▼ (数据 CRUD & 实时推送)           ▼ (AI 交互与流式管道)
+┌───────────────────────────────────────┐ ┌───────────────────────────────┐
+│   Self-Hosted Supabase 集群 (Docker)  │ │  AI Proxy & 中台服务集群      │
+│ ┌───────────────────────────────────┐ │ │ (Node.js / FastAPI 编排网关) │
+│ │ Kong Gateway (统一鉴权与路由分发) │ │ └───────────────┬───────────────┘
+│ └─┬─────────┬─────────┬─────────┬───┘ │                 │
+│   │         │         │         │     │                 ▼
+│ ┌─▼────┐ ┌──▼───┐ ┌───▼──┐ ┌────▼───┐ │ ┌───────────────────────────────┐
+│ │GoTrue│ │Postg-│ │Real- │ │Storage │ │ │ 多模型协议清洗与思考模式转换  │
+│ │(Auth)│ │REST  │ │time  │ │(音视频)│ │ │ (GLM-4.7 ↔ DeepSeek ↔ Qwen)  │
+│ └─┬────┘ └──┬───┘ └───┬──┘ └────┬───┘ │ └───────────────┬───────────────┘
+│   │         │         │         │     │                 │
+│   └─────────┴────┬────┴─────────┘     │                 ▼
+│                  ▼                    │ ┌───────────────────────────────┐
+│ ┌───────────────────────────────────┐ │ │ 实时 Token 计费与心点扣减引擎 │
+│ │ PgBouncer (Transaction 事务连接池)│ │ │ (防并发穿透 / 状态流水审计)   │
+│ └────────────────┬──────────────────┘ │ └───────────────┬───────────────┘
+│                  ▼                    │                 │
+│ ┌───────────────────────────────────┐ │                 ▼
+│ │ PostgreSQL 15 (pgvector + 原生 RLS│◄┘ ┌───────────────────────────────┐
+│ │  + 两层记忆库存储过程函数引擎)    │   │ Live TTS 流式中继与分块断句   │
+│ └───────────────────────────────────┘   │ (CosyVoice / DUIX 52表情驱动) │
+└─────────────────────────────────────────┴───────────────────────────────┘
 ```
 
 #### 1. 核心安全护城河：PostgreSQL RLS（Row Level Security 行级安全）
@@ -533,6 +553,17 @@ PostgreSQL 采用经典的“每个客户端分配一个专属后台进程”模
 * 将数百并发连接复用到 PostgreSQL 底层的 20-30 个高性能物理连接上，将数据库内存占用下降了 70%，查询吞吐量（QPS）提升了数倍；
 * 对于需要保持状态的 Realtime WebSocket 长连接，则单独划分子网直连或采用专用 Session 通道分流，确保实时推送与高频 CRUD 互不干扰。
 
+#### 4. AI 代理中台：多模型协议清洗与心点计费风控
+
+在真实业务场景中，前端绝对不能直接裸连第三方大模型厂商 API。这不仅会暴露核心密钥，更致命的是各家模型协议的剧烈割裂：
+
+以智谱 GLM-4.7 为例，模型重定向后默认强行开启“深度思考（Thinking）”，而前端遵循的是标准 OpenAI 格式的 `enable_thinking: false`，上游收到后直接爆出 400 参数格式异常；而 GLM 所要求的却是独有格式 `thinking: { type: "disabled" }`。
+
+为此，我自研并部署了专门的 **AI Proxy Server（AI 代理中间件）**：
+* **运行时协议动态转换**：在代理层实时嗅探请求载荷，对不同模型差异做无缝映射（如 OpenAI 规范与 GLM-4.7 协议清洗）；
+* **统一错误脱敏**：将上游杂乱无章的 400/401/429/503 异常转化为统一的结构化错误响应，彻底卸载前端繁冗的防御代码；
+* **“心点”商业计费闭环**：结合 PostgreSQL 事务与 Redis 计数器，在 LLM 流式吐出 Token 的同时进行实时用量审计，完成账户心点扣费与防并发重放，筑牢了商业化运行的防线。
+
 自部署 Supabase 并不是偷懒，它是一次大胆且经过深思熟虑的工程降维打击：**它让我以一人之力，筑牢了一套原本需要五人团队才能维系的商业级全栈防线。**
 
 ---
@@ -543,9 +574,9 @@ PostgreSQL 采用经典的“每个客户端分配一个专属后台进程”模
 
 在资源极度匮乏的团队里， :badge[Flutter]{link="https://flutter.dev"} 成了我最决绝也最正确的武器。然而“一套代码，跨端运行”的背后，是几何倍数增加的调试代价与平台差异：
 
-* **iOS**：严格的后台保活机制、AudioSession 抢占冲突、App Store 审核中针对 AI 生成内容（AIGC）的合规协议；
-* **Android**：混乱的机型碎片化、异形屏适配、底层 Native 渲染管线兼容；
-* **Web**：CanvasKit 引擎加载白屏优化、流式 SSE 在不同浏览器中的跨域拦截。
+* **Web**：CanvasKit 渲染引擎在生产环境暴露出致命水土不服——海外默认字体依赖常导致国内用户白屏卡顿长达 5~8 秒。我通过重写 `web/index.html` 嵌入国内镜像字体并做资源静态预热，将首屏渲染时间直接砍到 1 秒以内；
+* **iOS**：严苛的后台生命周期与 AudioSession 独占抢占冲突。为了保障语音通话在切出后台时不被系统静默截断，必须精细配置音频类别与扬声器路由；更要严密对齐 App Store 针对 AIGC（生成式人工智能）的内容合规协议与举报反馈闭环；
+* **Android**：异形屏与挖孔屏适配，以及软键盘弹起时对底层聊天气泡列表的视口挤压。为了防止键盘弹起引发的界面跳闪，我结合 `MediaQuery.viewInsets` 动态监听计算与平滑滚动动画，确保发送区与视口无缝联动。
 
 我对 UI 产生了近乎苛刻的洁癖。我不允许「心元」身上残留半点“学生大作业”的廉价感。
 
@@ -596,7 +627,6 @@ class LiquidGlassCard extends StatelessWidget {
     );
   }
 }
-
 ```
 
 不是因为逻辑有多复杂，而是骨子里有一股近乎顽固的偏执：**既然我已经带它走到了这里，它就必须足够体面。**
@@ -609,7 +639,7 @@ class LiquidGlassCard extends StatelessWidget {
 
 自部署 Supabase 绝非简单敲一行 `docker compose up -d` 就能高枕无忧。在生产环境里，Kong、GoTrue、PostgREST、Realtime、Storage、PgBouncer 以及集成了 `pgvector` 的 PostgreSQL 等十多个容器紧密咬合在一起，任何一个环节的配置失衡都会引发整机雪崩：
 
-1. **双层网关的 CORS 与流式穿透**：Flutter Web 端在不同浏览器中发起跨域请求时，常常因为 Kong 与前端 Nginx 的 CORS 响应头冲突导致预检拦截；而 AI 的 SSE 响应和 Realtime 的 WebSocket 长连接，极易被 Nginx 默认的代理缓冲区截断，导致客户端无法逐字流式打印，而是卡顿数十秒后“憋”出一整段文本。我必须细致调优 Nginx 的 `proxy_buffering off`、Chunked 编码与 Kong 路由插件，让字节流零时延穿透；
+1. **双层网关的 CORS 与流式穿透**：Flutter Web 端在不同浏览器中发起跨域请求时，常常因为 Kong 与前端 Nginx 的 CORS 响应头冲突导致预检拦截；而 AI 的 SSE 响应和 Realtime 的 WebSocket 长连接，极易被 Nginx 默认的代理缓冲区截断，导致客户端无法逐字流式打印，而是卡顿数十秒后“憋”出一整段文本。更致命的是，若 Nginx 开启了全局 Gzip 压缩，分块传输（Chunked Transfer）会被强行压缩缓冲甚至中途截断（Gzip Truncated Stream）。我必须细致调优 Nginx 的 `proxy_buffering off`、`gzip off`、Chunked 编码与 Kong 路由插件，让字节流零时延穿透；
 2. **磁盘 IOPS 与 WAL 膨胀危机**：在早期批量向量化导入角色记忆与用户资料时，`pgvector` 的 HNSW 索引构建产生了海量的 WAL（Write-Ahead Logging）预写式日志。在毫无征兆的深夜，云盘容量瞬间被吃尽，Docker 卷触发保护机制将 PostgreSQL 锁为 Read-Only，整套自部署集群瞬间全线瘫痪。
 
 最惊心动魄的一次，是在排查线上配置时不小心误操作**重启了生产服务器**。
@@ -645,10 +675,11 @@ location /api/v1/chat/stream {
     proxy_pass http://ai_streaming_upstream;
     proxy_http_version 1.1;
     
-    # 核心：彻底关闭缓冲，保障 SSE Token 与断句音频流毫秒级直达 Flutter
+    # 核心：彻底关闭缓冲与 Gzip，保障 SSE Token 与断句音频流毫秒级直达 Flutter
     proxy_set_header Connection '';
     proxy_buffering off;
     proxy_cache off;
+    gzip off; # 关键：杜绝 Gzip 压缩导致分块传输截断或缓冲
     chunked_transfer_encoding on;
     proxy_read_timeout 300s;
 }
@@ -801,11 +832,11 @@ $$
 
 | 阶段 | 实践轨迹 | 淬炼出的核心能力与技术栈 |
 | --- | --- | --- |
-| **启程探索** | 接触数字人与 AI 宏大命题 | 业务边界拆解、产品架构预研、技术选型 |
-| **寒冬破局** | 出租屋独立搭建心元初版 | Flutter 响应式状态管理、Prompt 结构化工程 |
-| **架构深潜** | AI 全链路工程化与记忆沉淀 | 自部署 Supabase、PostgreSQL + pgvector 原生向量记忆召回、PL/pgSQL 存储过程、SSE 流式断句分词、Blendshapes 音画同步 |
-| **商业重压** | 引入投资与商业化交付 | 零信任 PostgreSQL RLS 行级权限策略、PgBouncer 事务连接池调优、Kong 统一网关与高并发防御 |
-| **全端上线** | 真实用户涌入与多端部署 | iOS/Android/Web 三端特异性适配、Flutter-Supabase 响应式数据流绑定、Shader/高刷渲染调优、Docker 集群灾备排障 |
+| **启程探索** | 接触数字人与 AI 宏大命题 | 业务边界拆解、产品架构预研、数字人技术选型调研 |
+| **寒冬破局** | 出租屋独立搭建心元初版 | Flutter 跨端架构设计、响应式状态管理、Prompt 结构化工程与角色人设蒸馏 |
+| **架构深潜** | AI 全链路工程化与记忆沉淀 | 两层记忆架构（L1描述索引+L2情境按需加载）、时空轮回哲学System Prompt、PostgreSQL 15 + pgvector (HNSW) 混合衰减算分、流式断句双缓冲与 Double Flush 防吞字、全双工丝滑打断（Barge-In）、动态时间线交错流式区块（ContentBlock）、硅基 DUIX 52 表情基底端到端对口型 |
+| **商业重压** | 引入投资与商业化交付 | 自研 AI Proxy 多模型协议网关（GLM-4.7 / DeepSeek / Qwen 动态清洗）、Token 实时审计与心点防穿透扣减、零信任 PostgreSQL RLS 行级权限防御、PgBouncer 事务连接池高并发压测调优 |
+| **全端上线** | 真实用户涌入与多端部署 | Web 端 CanvasKit 国内字体加速与白屏治理、iOS AudioSession 抢占混音与 AIGC 审核合规、Android 软键盘视口防抖、自写分层毛玻璃 Shader 渲染、Nginx 入口防 Gzip 截断与防 CC 渗透拦截 |
 | **规则觉醒** | 股权全部转让与抽身出局 | 商业契约意识、法人与股权防线、个人价值确权、全栈系统工程方法论 |
 
 ---
