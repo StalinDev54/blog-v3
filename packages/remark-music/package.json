@@ -13,14 +13,13 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsdown --exports"
+    "build": "tsc --declaration --outDir dist"
   },
   "dependencies": {
     "unist-util-visit": "catalog:content"
   },
   "devDependencies": {
     "@zinkawaii/tsconfig": "catalog:framework",
-    "tsdown": "catalog:framework",
     "typescript": "catalog:framework"
   }
 }
