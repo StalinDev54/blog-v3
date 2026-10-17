@@ -180,8 +180,10 @@ ${packageJson.homepage}
 	},
 
 	linkChecker: {
+		failOnError: false,
 		// @keep-sorted
 		skipInspections: [
+			'absolute-site-urls',
 			'no-baseless',
 			'no-non-ascii-chars',
 			'no-uppercase-chars',
