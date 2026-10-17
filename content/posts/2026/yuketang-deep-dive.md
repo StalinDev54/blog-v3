@@ -194,18 +194,19 @@ caption: 课件流：支持百页课件拖拽预览与手势无级缩放
 
 ## 7. 体验方式
 
-::pic
----
-src: https://img.jiclub.site/file/1792241080029_08_qrcode_search.jpg
-caption: 微信扫一扫或搜一搜「工小湖」
 如果你也受够了官方网页的卡顿和误超时，可以在微信直接体验：
 
 1. **微信搜一搜**：搜索 **「工小湖」** 即可找到小程序；
 2. **扫码进入**：使用微信扫描下方小程序码直接打开；
 3. **视频演示**：前往哔哩哔哩观看完整实机效果 [【工小湖】雨课堂神器，彻底让你的课堂起飞](https://www.bilibili.com/video/BV11WJe6WEhK/)。
+
 ::video-embed{type="bilibili" id="BV11WJe6WEhK"}
 ::
 
-
+::pic
+---
+src: https://img.jiclub.site/file/1792241080029_08_qrcode_search.jpg
+caption: 微信扫一扫或搜一搜「工小湖」
 ---
 ::
+
