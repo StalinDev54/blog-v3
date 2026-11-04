@@ -124,16 +124,16 @@ const focusAreas = [
 			</div>
 			<div class="mbti-content">
 				<div class="mbti-type">
-					INFP-T
+					INTP-T
 				</div>
 				<div class="mbti-role">
-					调停者
+					逻辑学家
 				</div>
 				<p class="mbti-desc">
-					理想主义、温和而坚定，渴望用创意为世界带来微小而美好的改变。
+					具有创造力的发明家，对知识有着止不住的渴望，热衷于在抽象思维与理性逻辑中探索事物的本质。
 				</p>
 				<a
-					href="https://www.16personalities.com/ch/infp-%E4%BA%BA%E6%A0%BC"
+					href="https://www.16personalities.com/ch/intp-%E4%BA%BA%E6%A0%BC"
 					target="_blank"
 					rel="noopener noreferrer"
 					class="apple-pill-btn"
